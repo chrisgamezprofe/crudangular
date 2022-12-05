@@ -1,0 +1,89 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+        <h1 style="color:#fff">CRUD ANGULAR & Spring Boot</h1>
+        <div class="d-flex">
+            <button id="nuevo" (click)="nuevo()" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Nuevo estudiante</button>
+        </div>
+    </div>
+</nav>
+
+<section class="continer">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Correo</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let item of estudiantes">
+            <th scope="row">{{ item.id }}</th>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.dni }}</td>
+            <td>{{ item.apellido }}</td>
+            <td>{{ item.correo }}</td>
+            <td>
+                <button class="btn btn-info" data-toggle="modal" data-target="#exampleModal" (click)="editar(item)">Editar</button>
+                <button class="btn btn-danger mx-2" (click)="eliminar(item.id)">Eliminar</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+</section>
+
+<section class="container">
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 *ngIf="editando==false" class="modal-title" id="exampleModalLabel">Registrar nuevo estudiante</h5>
+          <h5 *ngIf="editando==true" class="modal-title" id="exampleModalLabel">Editar estudiante</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="formulario">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">DNI</label>
+                    <input type="number" formControlName="dni" class="form-control" aria-describedby="emailHelp" placeholder="DNI">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre</label>
+                    <input type="text" class="form-control" formControlName="nombre" aria-describedby="emailHelp" placeholder="Nombre">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Apellido</label>
+                    <input type="text" class="form-control" formControlName="apellido"  aria-describedby="emailHelp" placeholder="Apellido">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Correo</label>
+                    <input type="email" class="form-control" formControlName="correo"  aria-describedby="emailHelp" placeholder="Correo">
+                  </div>
+                
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cerrarDialogo" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <section *ngIf="editando==false">
+            <button *ngIf="this.formulario.valid==true" type="button" class="btn btn-success" (click)="guardar()">Registrar</button>
+            <button *ngIf="this.formulario.valid==false" type="button" class="btn btn-success" disabled>Registrar</button>
+          </section>
+          <section *ngIf="editando==true">
+            <button *ngIf="this.formulario.valid==true" type="button" class="btn btn-success" (click)="actualizar()">Actualizar</button>
+            <button *ngIf="this.formulario.valid==false" type="button" class="btn btn-success" disabled>Actualizar</button>
+          </section>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
